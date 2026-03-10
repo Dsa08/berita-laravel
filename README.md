@@ -57,3 +57,26 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# 📰 News & Blog Hub - Laravel 12
+
+Proyek sistem manajemen berita sederhana yang dibangun menggunakan **Laravel 12** dan **Breeze**. Proyek ini merupakan bagian dari tugas pembelajaran RPL di SMK Negeri 11 Bandung.
+
+## 🚀 Fitur Saat Ini
+- **CRUD Berita:** Tambah, edit, dan hapus berita.
+- **Kategori & Tags:** Relasi antar data berita dengan kategori dan tag.
+- **Upload Gambar:** Fitur thumbnail untuk setiap berita.
+- **Sistem Login:** Menggunakan Laravel Breeze (Coming Soon/In Progress).
+
+## 🛠️ Teknologi yang Digunakan
+- **Framework:** Laravel 12
+- **Database:** MySQL (Laragon)
+- **Frontend:** Blade Templating & Tailwind CSS
+- **Tools:** GitHub Desktop & VS Code
+
+## 📝 Cara Instalasi (Lokal)
+1. Clone repo ini.
+2. Jalankan `composer install`.
+3. Salin `.env.example` ke `.env` dan atur database.
+4. Jalankan `php artisan migrate --seed`.
+5. Jalankan `php artisan serve`.
