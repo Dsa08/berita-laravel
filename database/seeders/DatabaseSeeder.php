@@ -15,13 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat user default
+        // Buat user Admin
         User::updateOrCreate(
-            ['email' => 'admin@gmail.com'], // Cari berdasarkan email
+            ['email' => 'admin@gmail.com'], 
             [
                 'name' => 'Admin News',
                 'password' => bcrypt('password123'),
                 'role' => 'admin',
+            ]
+        );
+
+        // Tambahkan ini: Buat user biasa untuk tes proteksi (403)
+        User::updateOrCreate(
+            ['email' => 'user@gmail.com'],
+            [
+                'name' => 'User Biasa',
+                'password' => bcrypt('password123'),
+                'role' => 'user',
             ]
         );
 
