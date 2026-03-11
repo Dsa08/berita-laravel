@@ -16,10 +16,14 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Buat user default
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@gmail.com'], // Cari berdasarkan email
+            [
+                'name' => 'Admin News',
+                'password' => bcrypt('password123'),
+                'role' => 'admin',
+            ]
+        );
 
         // Jalankan seeder kategori
         $this->call(CategorySeeder::class);
