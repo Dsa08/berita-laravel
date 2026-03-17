@@ -35,6 +35,16 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+
+        User::updateOrCreate(
+            ['email' => 'editor@gmail.com'],
+            [
+                'name' => 'Editor News',
+                'password' => bcrypt('password123'),
+                'role' => 'editor',
+            ]
+        );
+
         // Jalankan seeder kategori
         $this->call(CategorySeeder::class);
     }
