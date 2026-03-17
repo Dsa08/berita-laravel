@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index() {
-        $users = \App\Models\User::all();
+    public function index()
+    {
+        $users = User::all();
         return view('admin.users.index', compact('users'));
     }
 
-    public function updateRole(Request $request, $id) {
-        $user = \App\Models\User::findOrFail($id);
+    public function updateRole(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
         $user->update(['role' => $request->role]);
+
         return back()->with('success', 'Role user berhasil diubah!');
     }
 }
