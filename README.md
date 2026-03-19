@@ -1,82 +1,191 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎌 AniNews — Portal Berita Anime & Manga
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-12.x-red?style=flat-square&logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.4-blue?style=flat-square&logo=php)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.x-38bdf8?style=flat-square&logo=tailwindcss)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## About Laravel
+Proyek sistem manajemen portal berita sederhana berbasis **Laravel 12** dengan tema dark anime. Dibangun sebagai bagian dari tugas pembelajaran RPL di **SMK Negeri 11 Bandung**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🌐 Halaman Publik (Pengunjung)
+- Halaman utama dengan tampilan hero berita utama
+- Grid berita terbaru dengan thumbnail
+- Halaman detail berita lengkap dengan berita terkait
+- Search bar pencarian berita
+- Filter berdasarkan kategori
 
-## Learning Laravel
+### 🔐 Sistem Autentikasi
+- Login & Register (Laravel Breeze)
+- Sistem role: **Admin**, **Editor**, **User**
+- Middleware proteksi akses per role
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 📰 Manajemen Berita (Admin & Editor)
+- CRUD Berita (Tambah, Lihat, Edit, Hapus)
+- Upload thumbnail gambar
+- Relasi Kategori & Tag
+- Status artikel: **Draft** / **Published**
+- Hapus berita hanya bisa dilakukan **Admin**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 👥 Manajemen User (Admin Only)
+- Lihat daftar semua user
+- Ubah role user (Admin / Editor / User)
+- Proteksi: Admin tidak bisa ubah role dirinya sendiri
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Teknologi
 
-### Premium Partners
+| Teknologi | Versi |
+|-----------|-------|
+| PHP | 8.4 |
+| Laravel | 12.x |
+| Laravel Breeze | - |
+| MySQL | - |
+| Tailwind CSS | 3.x |
+| Alpine.js | - |
+| Vite | - |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## ⚙️ Cara Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Clone Repository
+```bash
+git clone https://github.com/Dsa08/berita-laravel.git
+cd berita-laravel
+```
 
-## Code of Conduct
+### 2. Install Dependencies
+```bash
+composer install
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Konfigurasi Environment
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+Edit file `.env` dan sesuaikan konfigurasi database:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=beritadb
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Migrasi & Seeder
+```bash
+php artisan migrate --seed
+```
 
-## License
+### 5. Storage Link
+```bash
+php artisan storage:link
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 6. Jalankan Aplikasi
 
-# 📰 News & Blog Hub - Laravel 12
+Buka **2 terminal** secara bersamaan:
 
-Proyek sistem manajemen berita sederhana yang dibangun menggunakan **Laravel 12** dan **Breeze**. Proyek ini merupakan bagian dari tugas pembelajaran RPL di SMK Negeri 11 Bandung.
+**Terminal 1:**
+```bash
+php artisan serve
+```
 
-## 🚀 Fitur Saat Ini
-- **CRUD Berita:** Tambah, edit, dan hapus berita.
-- **Kategori & Tags:** Relasi antar data berita dengan kategori dan tag.
-- **Upload Gambar:** Fitur thumbnail untuk setiap berita.
-- **Sistem Login:** Menggunakan Laravel Breeze (Coming Soon/In Progress).
+**Terminal 2:**
+```bash
+npm run dev
+```
 
-## 🛠️ Teknologi yang Digunakan
-- **Framework:** Laravel 12
-- **Database:** MySQL (Laragon)
-- **Frontend:** Blade Templating & Tailwind CSS
-- **Tools:** GitHub Desktop & VS Code
+Lalu buka browser di: **http://localhost:8000**
 
-## 📝 Cara Instalasi (Lokal)
-1. Clone repo ini.
-2. Jalankan `composer install`.
-3. Salin `.env.example` ke `.env` dan atur database.
-4. Jalankan `php artisan migrate --seed`.
-5. Jalankan `php artisan serve`.
+---
+
+## 👤 Role & Akses
+
+| Role | Baca Berita | Tulis/Edit Berita | Hapus Berita | Kelola User |
+|------|:-----------:|:-----------------:|:------------:|:-----------:|
+| User | ✅ | ❌ | ❌ | ❌ |
+| Editor | ✅ | ✅ | ❌ | ❌ |
+| Admin | ✅ | ✅ | ✅ | ✅ |
+
+> Role default untuk akun baru adalah **User**. Ubah role melalui halaman `/admin/users` (hanya Admin).
+
+---
+
+## 📁 Struktur Folder Penting
+
+```
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── NewsController.php      # Halaman publik
+│   │   │   ├── PostController.php      # CRUD berita
+│   │   │   └── UserController.php      # Manajemen user
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php      # Cek role user
+│   └── Models/
+│       ├── Post.php
+│       ├── Category.php
+│       ├── Tag.php
+│       └── User.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│       ├── CategorySeeder.php
+│       └── TagSeeder.php
+└── resources/views/
+    ├── public/                         # Halaman publik
+    │   ├── home.blade.php
+    │   └── show.blade.php
+    ├── posts/                          # CRUD berita
+    ├── admin/users/                    # Manajemen user
+    ├── layouts/                        # Layout utama
+    └── auth/                           # Halaman login/register
+```
+
+---
+
+## 🗺️ Routes Utama
+
+| Method | URL | Keterangan |
+|--------|-----|------------|
+| GET | `/` | Halaman publik utama |
+| GET | `/berita/{post}` | Detail berita |
+| GET | `/admin/posts` | Daftar berita (Admin & Editor) |
+| GET | `/admin/users` | Manajemen user (Admin only) |
+| GET | `/dashboard` | Dashboard |
+| GET | `/login` | Halaman login |
+| GET | `/register` | Halaman register |
+
+---
+
+## 📝 Catatan Pengembangan
+
+Proyek ini dikembangkan mengikuti tutorial dari [Gurututorku.com](https://gurututorku.com) dengan tambahan fitur dan penyesuaian:
+
+- Bagian 1: CRUD Post
+- Bagian 2: Upload Gambar Thumbnail
+- Bagian 3: Relasi Kategori dan Tag
+- Bagian 4: Login Breeze, Role & Middleware
+
+---
+
+## 👨‍💻 Developer
+
+**Dhafin Syawal Anugera**  
+SMK Negeri 11 Bandung — Jurusan RPL
+
+---
+
+## 📄 Lisensi
+
+Project ini menggunakan lisensi [MIT](https://opensource.org/licenses/MIT).
