@@ -9,19 +9,23 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['category', 'tags'])
-            ->published()
-            ->latest()
-            ->paginate(9);
+        $query = Post::with(['category', 'tags'])->published()->latest();
 
+        // Kalau ada keyword pencarian
+        if (request('search')) {
+            $query->where('title', 'like', '%' . request('search') . '%')
+                  ->orWhere('content', 'like', '%' . request('search') . '%');
+        }
+
+        $posts = $query->paginate(9)->withQueryString();
         $categories = Category::all();
+        $search = request('search');
 
-        return view('public.home', compact('posts', 'categories'));
+        return view('public.home', compact('posts', 'categories', 'search'));
     }
 
     public function show(Post $post)
     {
-        // Pastikan hanya berita published yang bisa dibuka publik
         if ($post->status !== 'published') {
             abort(404);
         }
