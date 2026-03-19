@@ -44,7 +44,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         {{-- Proteksi ID: Admin tidak bisa turun pangkat sendiri --}}
-                                        @if($user->id !== Auth::id())
+                                        @if($user->id !== auth()->id())
                                             <form action="{{ route('users.updateRole', $user->id) }}" method="POST" class="inline-block">
                                                 @csrf
                                                 @method('PATCH')
