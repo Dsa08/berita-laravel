@@ -19,5 +19,8 @@ class RoleMiddleware
         if (!$request->user() || !in_array($request->user()->role, $roles)) {
             abort(403, 'Kamu tidak punya akses ke halaman ini!');
         }
+
+        // TAMBAHKAN BARIS INI:
+        return $next($request);
     }
 }
