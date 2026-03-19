@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,11 +18,14 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            DB::table('categories')->insert([
-                'name' => $category,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            DB::table('categories')->updateOrInsert(
+                ['name' => $category], // cek berdasarkan nama
+                [
+                    'name' => $category,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
         }
     }
 }

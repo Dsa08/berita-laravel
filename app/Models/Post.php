@@ -9,24 +9,28 @@ class Post extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'title',
         'content',
         'author',
         'thumbnail',
         'category_id',
+        'status',
     ];
 
-    
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    // Scope untuk filter berita yang sudah published
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
     }
 }

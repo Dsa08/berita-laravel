@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    
+
                     <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -56,7 +56,7 @@
                             <div class="flex flex-wrap gap-4">
                                 @foreach($tags as $tag)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" 
+                                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}"
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
                                             {{ $post->tags->contains($tag->id) ? 'checked' : '' }}>
                                         <label for="tag-{{ $tag->id }}" class="ml-2 text-sm text-gray-600 cursor-pointer">
@@ -65,6 +65,14 @@
                                     </div>
                                 @endforeach
                             </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block font-medium text-sm text-gray-700">Status</label>
+                            <select name="status" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
+                                <option value="draft" {{ $post->status == 'draft' ? 'selected' : '' }}>Draft (Belum Publish)</option>
+                                <option value="published" {{ $post->status == 'published' ? 'selected' : '' }}>Published (Langsung Tayang)</option>
+                            </select>
                         </div>
 
                         <div class="flex items-center gap-4">

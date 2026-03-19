@@ -8,10 +8,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                
+
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-medium text-gray-900">List Postingan</h3>
-                    <a href="{{ route('posts.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
+                    <a href="{{ route('posts.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
                         + Tambah Berita
                     </a>
                 </div>
@@ -34,30 +34,53 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach ($posts as $post)
-                            <tr>
+                            @forelse ($posts as $post)
+                            <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($post->thumbnail)
-                                        <img src="{{ asset('storage/'.$post->thumbnail) }}" class="w-20 h-auto rounded">
+                                        <img src="{{ asset('storage/'.$post->thumbnail) }}" class="w-20 h-14 object-cover rounded shadow">
                                     @else
-                                        <span class="text-gray-400 text-xs">No Image</span>
+                                        <span class="text-gray-400 text-xs italic">No Image</span>
                                     @endif
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $post->title }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $post->author }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $post->created_at->format('d M Y') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ $post->title }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $post->author ?? '-' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $post->created_at->format('d M Y') }}
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <div class="flex space-x-2">
-                                        <a href="{{ route('posts.show', $post) }}" class="text-blue-600 hover:text-blue-900">Lihat</a>
-                                        <a href="{{ route('posts.edit', $post) }}" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                        <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Yakin hapus?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900">Hapus</button>
-                                        </form>
+                                        <a href="{{ route('posts.show', $post) }}"
+                                            class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-xs font-semibold hover:bg-blue-200">
+                                            Lihat
+                                        </a>
+                                        <a href="{{ route('posts.edit', $post) }}"
+                                            class="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 rounded-md text-xs font-semibold hover:bg-yellow-200">
+                                            Edit
+                                        </a>
+                                        @if(auth()->user()->role === 'admin')
+                                            <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Yakin hapus berita ini?')">
+                                                @csrf @method('DELETE')
+                                                <button type="submit"
+                                                    class="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 rounded-md text-xs font-semibold hover:bg-red-200">
+                                                    Hapus
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-8 text-center text-gray-400 italic">
+                                    Belum ada berita. Klik "+ Tambah Berita" untuk mulai!
+                                </td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

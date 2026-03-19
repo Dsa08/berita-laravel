@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage; 
 class PostController extends Controller
 {
     public function index()
@@ -23,6 +25,7 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
+    
         $request->validate([
             'title'       => 'required|string|max:255',
             'content'     => 'required|string',
@@ -31,9 +34,11 @@ class PostController extends Controller
             'tags'        => 'nullable|array',
             'tags.*'      => 'exists:tags,id',
             'thumbnail'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'status'      => 'required|in:draft,published', 
         ]);
 
-        $data = $request->only(['title', 'content', 'author', 'category_id']);
+        
+        $data = $request->only(['title', 'content', 'author', 'category_id', 'status']);
 
         if ($request->hasFile('thumbnail')) {
             $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
@@ -45,7 +50,7 @@ class PostController extends Controller
             $post->tags()->sync($request->tags);
         }
 
-        return redirect()->route('admin/posts.index')->with('success', 'Berita berhasil ditambahkan!');
+        return redirect()->route('posts.index')->with('success', 'Berita berhasil ditambahkan!');
     }
 
     public function show(Post $post)
@@ -63,6 +68,7 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $request->validate([
             'title'       => 'required|string|max:255',
             'content'     => 'required|string',
@@ -71,15 +77,16 @@ class PostController extends Controller
             'tags'        => 'nullable|array',
             'tags.*'      => 'exists:tags,id',
             'thumbnail'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'status'      => 'required|in:draft,published', 
         ]);
 
         $post = Post::findOrFail($id);
-        $data = $request->only(['title', 'content', 'author', 'category_id']);
+        
+        $data = $request->only(['title', 'content', 'author', 'category_id', 'status']);
 
         if ($request->hasFile('thumbnail')) {
-            // Hapus thumbnail lama jika ada
-            if ($post->thumbnail && \Storage::disk('public')->exists($post->thumbnail)) {
-                \Storage::disk('public')->delete($post->thumbnail);
+            if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
+                Storage::disk('public')->delete($post->thumbnail);
             }
             $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
@@ -92,17 +99,20 @@ class PostController extends Controller
             $post->tags()->detach();
         }
 
-        return redirect()->route('admin/posts.index')->with('success', 'Berita berhasil diperbarui!');
+        return redirect()->route('posts.index')->with('success', 'Berita berhasil diperbarui!');
     }
 
     public function destroy(Post $post)
     {
-        // Hapus thumbnail dari storage jika ada
-        if ($post->thumbnail && \Storage::disk('public')->exists($post->thumbnail)) {
-            \Storage::disk('public')->delete($post->thumbnail);
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Hanya admin yang boleh menghapus berita!');
+        }
+
+        if ($post->thumbnail && Storage::disk('public')->exists($post->thumbnail)) {
+            Storage::disk('public')->delete($post->thumbnail);
         }
 
         $post->delete();
-        return redirect()->route('admin/posts.index')->with('success', 'Berita berhasil dihapus!');
+        return redirect()->route('posts.index')->with('success', 'Berita berhasil dihapus!');
     }
 }
