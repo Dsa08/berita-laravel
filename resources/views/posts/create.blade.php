@@ -4,46 +4,55 @@
             {{ __('Tambah Berita Baru') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
+                        {{-- Tampilkan Error --}}
+                        @if ($errors->any())
+                            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                                <ul class="list-disc list-inside text-sm">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="mb-4">
                             <label class="block font-medium text-sm text-gray-700">Judul Berita</label>
-                            <input type="text" name="title" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" required>
+                            <input type="text" name="title" value="{{ old('title') }}" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" required>
                         </div>
-
                         <div class="mb-4">
                             <label class="block font-medium text-sm text-gray-700">Isi Berita</label>
-                            <textarea name="content" rows="5" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" required></textarea>
+                            <textarea name="content" rows="5" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" required>{{ old('content') }}</textarea>
                         </div>
-
                         <div class="mb-4">
                             <label class="block font-medium text-sm text-gray-700">Thumbnail</label>
                             <input type="file" name="thumbnail" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                         </div>
-
                         <div class="mb-4">
                             <label class="block font-medium text-sm text-gray-700">Kategori</label>
                             <select name="category_id" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
                                 <option value="">-- Pilih Kategori --</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
-
                         <div class="mb-6">
                             <label class="block font-medium text-sm text-gray-700 mb-2">Tag Berita</label>
                             <div class="flex flex-wrap gap-4">
                                 @foreach($tags as $tag)
                                     <div class="flex items-center">
-                                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                                        <input type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag-{{ $tag->id }}"
+                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
+                                            {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}>
                                         <label for="tag-{{ $tag->id }}" class="ml-2 text-sm text-gray-600 cursor-pointer">
                                             {{ $tag->name }}
                                         </label>
@@ -51,15 +60,13 @@
                                 @endforeach
                             </div>
                         </div>
-
                         <div class="mb-6">
                             <label class="block font-medium text-sm text-gray-700">Status</label>
                             <select name="status" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full">
-                                <option value="draft">Draft (Belum Publish)</option>
-                                <option value="published">Published (Langsung Tayang)</option>
+                                <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft (Belum Publish)</option>
+                                <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>Published (Langsung Tayang)</option>
                             </select>
                         </div>
-
                         <div class="flex items-center gap-4">
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150">
                                 Simpan Berita
@@ -69,7 +76,6 @@
                             </a>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
